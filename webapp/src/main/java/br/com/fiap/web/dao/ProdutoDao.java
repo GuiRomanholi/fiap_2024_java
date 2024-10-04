@@ -16,6 +16,7 @@ public class ProdutoDao {
     public ProdutoDao() {
         this.conexao = ConnectionFactory.obterConexao();
     }
+
     public void inserir(Produto produto){
         PreparedStatement comandoSql = null;
         try{
@@ -26,6 +27,39 @@ public class ProdutoDao {
             comandoSql.setString(2, produto.getNome());
             comandoSql.setDouble(3, produto.getPreco());
             comandoSql.setInt(4, produto.getQuantidade());
+
+            comandoSql.executeUpdate();
+            //conexao.close();
+            comandoSql.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void alterar(Produto produto){
+        PreparedStatement comandoSql = null;
+        try{
+            String sql = "update tbl_produto set nome = ?, proco = ?, quantidade= ? where codigo =?";
+            comandoSql = conexao.prepareStatement(sql);
+            comandoSql.setString(1, produto.getNome());
+            comandoSql.setDouble(2, produto.getPreco());
+            comandoSql.setInt(3, produto.getQuantidade());
+            comandoSql.setInt(4, produto.getCodigo());
+
+            comandoSql.executeUpdate();
+            //conexao.close();
+            comandoSql.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deletar(int codigo){
+        PreparedStatement comandoSql = null;
+        try{
+            String sql = "delete from tbl_produto where codigo =?";
+            comandoSql = conexao.prepareStatement(sql);
+            comandoSql.setInt(1, codigo);
 
             comandoSql.executeUpdate();
             //conexao.close();

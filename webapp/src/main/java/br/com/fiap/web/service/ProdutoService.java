@@ -18,4 +18,16 @@ public class ProdutoService {
         return produtoDao.buscarPorId(codigo);
     }
 
+    public void cadastrar(Produto produto){
+        produtoDao.inserir(produto);
+    }
+
+    public void alterar(Produto produto){
+        produtoDao.alterar(produto);
+    }
+
+    public void deletar(int codigo){
+        produtoDao.deletar(codigo);
+    }
+
 }
