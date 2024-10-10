@@ -1,5 +1,6 @@
 package br.com.fiap.web.resource;
 
+import br.com.fiap.web.dto.ProdutoRequestDto;
 import br.com.fiap.web.model.Produto;
 import br.com.fiap.web.service.ProdutoService;
 import jakarta.ws.rs.*;
@@ -14,20 +15,20 @@ public class ProdutoResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Produto> listar(){
+    public List<ProdutoRequestDto> listar(){
         return service.listar();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Produto buscar(@PathParam("id") int codigo){
+    public ProdutoRequestDto buscar(@PathParam("id") int codigo){
         return service.buscarPorId(codigo);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response cadastrar(Produto produto, @Context UriInfo uriInfo){
+    public Response cadastrar(ProdutoRequestDto produto, @Context UriInfo uriInfo){
         service.cadastrar(produto);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         builder.path(Integer.toString(produto.getCodigo()));
@@ -37,7 +38,7 @@ public class ProdutoResource {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizar(Produto produto, @PathParam("id") int codigo){
+    public Response atualizar(ProdutoRequestDto produto, @PathParam("id") int codigo){
         if (codigo == produto.getCodigo()){
             service.alterar(produto);
             return Response.ok().build();
